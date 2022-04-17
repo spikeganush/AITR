@@ -32,13 +32,14 @@ img {
     font-size: 3rem;
 }
 
-#start_survey, #staff {
+input[type=button], #MainContent_ButtonNext {
     padding-inline: 1rem;
     padding-block: 0.5rem;
     border-radius: 6px;
     background-color: darkslateblue;
     color: #fff;
     font-size: 1.1rem;
+    margin-inline: 1rem;
 }
 
 .introduction {
@@ -47,6 +48,19 @@ img {
     min-width: 150px;
     max-width: 650px;
     font-size: 1.1rem;
+}
+
+.anonymous__title {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.anonymous__radio {
+    margin-bottom: 1rem;
+}
+
+#MainContent_Email__validator {
+    color: red;
 }
 
 

@@ -6,6 +6,6 @@
     
     <div class="introduction">AIT Research (AITR) is a market research company that allows people from the general public to register their details, buying habits etc., with AITR and then sends these respondents to market research jobs based on the needs of AITR’s clients. </div>
     
-       <div class="start_button_area"> <a href="StartSurvey.aspx"><input id="start_survey" type="button" value="Start the survey" /></a></div>
+       <div class="start_button_area"> <a href="./respondent/StartSurvey.aspx"><input id="start_survey" type="button" value="Start the survey" /></a></div>
 
 </asp:Content>

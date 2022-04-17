@@ -42,5 +42,20 @@ namespace AITR
             myCommand = new SqlCommand("SELECT * FROM [question]", myConn);
 
         }
+
+        protected void ButtonNext_Click(object sender, EventArgs e)
+        {
+            Session["RespondentEmail"] = TextBoxEmail.Text;
+
+            if (anonymous_yes.Checked)
+            {
+                Response.Redirect("Survey.aspx");
+                
+
+            } else
+            {
+                Response.Redirect("RespondentRegister.aspx");
+            }
+        }
     }
 }
