@@ -4,13 +4,14 @@
 
 <html>
 <head runat="server">
-    <title></title>
+    <title>AITR Survey</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
+        <div class="main_container">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
         </div>
