@@ -39,8 +39,6 @@ namespace AITR.Utils
         {
             SqlConnection conn = new SqlConnection(GetConnectionString());
             return conn;
-        }
-
-
+        }   
     }        
 }

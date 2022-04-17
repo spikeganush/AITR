@@ -14,7 +14,9 @@ namespace AITR
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            Session["research_id"] = null;
+            Session["question_nb"] = 100;
+            Session["question_nb_display"] = 1;
 
         }
 

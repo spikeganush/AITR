@@ -90,3 +90,39 @@ input[type=button], #MainContent_ButtonNext, #MainContent_ButtonRegister {
 .register__buttons {
     margin-top: 3rem;
 }
+
+.page__title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.options {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .options > table > tbody > tr {
+        margin-inline: 2rem;
+    }
+
+.question__title {
+    font-size: 2rem;
+}
+
+.question__description {
+    font-size: 1.5rem;
+}
+
+.question__option {
+    font-size: 1rem;
+    opacity: 0.7;
+    margin-bottom: 1rem;
+}
+
+.survey__buttons__area {
+    margin-top:2rem;
+}
+
+.options > table > tbody {
+    display: flex;
+}
