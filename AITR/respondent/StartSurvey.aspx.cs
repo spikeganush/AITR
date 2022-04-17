@@ -23,9 +23,27 @@ namespace AITR
 
             if (anonymous_yes.Checked)
             {
+                using (SqlConnection conn = Utils.Utils.GetConnection())
+                {
+                    String query = "INSERT INTO respondent (register) VALUES (@register) select SCOPE_IDENTITY()";
+
+                    conn.Open();
 
 
-                Response.Redirect("Survey.aspx");
+
+                    using (SqlCommand command = new SqlCommand(query, conn))
+                    {
+                        command.Parameters.AddWithValue("@register", 0);                        
+
+                        String id = command.ExecuteScalar().ToString();
+
+                        Session["respondent_id"] = id;
+                    }
+
+                    conn.Close();
+                }
+
+                    Response.Redirect("Survey.aspx");
                 
 
             } else

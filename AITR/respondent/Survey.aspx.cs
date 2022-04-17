@@ -11,7 +11,7 @@ namespace AITR.respondent
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            LabelTest.Text = Session["respondent_id"].ToString();
         }
     }
 }
