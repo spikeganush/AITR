@@ -15,24 +15,6 @@ namespace AITR
     {
 
         /// <summary>
-        /// TextBoxEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxEmail;
-
-        /// <summary>
-        /// Email__validator control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator Email__validator;
-
-        /// <summary>
         /// anonymous_yes control.
         /// </summary>
         /// <remarks>

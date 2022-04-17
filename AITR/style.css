@@ -32,7 +32,7 @@ img {
     font-size: 3rem;
 }
 
-input[type=button], #MainContent_ButtonNext {
+input[type=button], #MainContent_ButtonNext, #MainContent_ButtonRegister {
     padding-inline: 1rem;
     padding-block: 0.5rem;
     border-radius: 6px;
@@ -63,4 +63,30 @@ input[type=button], #MainContent_ButtonNext {
     color: red;
 }
 
+.register__respondent__area {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: min(90%, 450px); 
+}
 
+.register__respondent__line {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.25rem;
+    margin-top: 0.25rem;
+}
+
+.field_title {
+    margin-right: 2rem;
+}
+
+.field {
+    width: 165px;
+}
+
+.register__buttons {
+    margin-top: 3rem;
+}

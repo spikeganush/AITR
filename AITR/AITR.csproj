@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="home.aspx" />
-    <Content Include="RespondentRegister.aspx" />
+    <Content Include="respondent\RespondentRegister.aspx" />
     <Content Include="respondent\Survey.aspx" />
     <Content Include="style.css" />
     <Content Include="respondent\StartSurvey.aspx" />
@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConstant.cs" />
+    <Compile Include="DTO\ResultStatus.cs" />
     <Compile Include="home.aspx.cs">
       <DependentUpon>home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -84,11 +85,11 @@
       <DependentUpon>home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RespondentRegister.aspx.cs">
+    <Compile Include="respondent\RespondentRegister.aspx.cs">
       <DependentUpon>RespondentRegister.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="RespondentRegister.aspx.designer.cs">
+    <Compile Include="respondent\RespondentRegister.aspx.designer.cs">
       <DependentUpon>RespondentRegister.aspx</DependentUpon>
     </Compile>
     <Compile Include="respondent\Survey.aspx.cs">
@@ -112,6 +113,7 @@
     <Compile Include="respondent\StartSurvey.aspx.designer.cs">
       <DependentUpon>StartSurvey.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

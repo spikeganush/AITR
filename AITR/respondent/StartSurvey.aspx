@@ -5,13 +5,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h1 class="title">Welcome to the AITR survey!</h1>
     <p>
-        You can participate in this survey anonymously or register your personal information. (your email is mandatory)
-    </p>
-    <div class="email_area">
-        Email:&nbsp;
-        <asp:TextBox ID="TextBoxEmail" runat="server"></asp:TextBox>
-        <asp:RequiredFieldValidator ID="Email__validator" runat="server" ErrorMessage="Please fill the field." ControlToValidate="TextBoxEmail"></asp:RequiredFieldValidator>
-    </div>
+        You can participate in this survey anonymously or register your personal information.
+    </p>   
     <div class="anonymous">
         <div class="anonymous__title">
             Taking the survey anonymously?
