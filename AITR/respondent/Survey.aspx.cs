@@ -22,7 +22,7 @@ namespace AITR.respondent
         private string havePreviousQuestion = String.Empty;
         private string haveNextQuestion = String.Empty;
 
-        
+        private TextBox textBox = new TextBox();
         private DropDownList dropDownList = new DropDownList();
         private CheckBoxList checkBoxList = new CheckBoxList();
         private RadioButtonList radioBtnList = new RadioButtonList();
@@ -91,8 +91,7 @@ namespace AITR.respondent
 
                         questionOptions = Convert.ToInt32(question["question_type_id"]);
                         if (questionOptions == 1)
-                        {
-                            TextBox textBox = new TextBox();
+                        {                            
                             Option.Controls.Add(textBox);
                             textBox.Text = String.Empty;
                         }
@@ -241,8 +240,13 @@ namespace AITR.respondent
 
         protected void button_next_Click(object sender, EventArgs e)
         {  
-            //radiobutton
-            if (questionOptions == 2)
+            //textBox
+            if(questionOptions == 1)
+            {
+                SaveAnswerInDb(textBox.Text);
+            }
+            //radioButton
+            else if (questionOptions == 2)
             {
                 foreach(ListItem item in radioBtnList.Items)
                 {
@@ -261,7 +265,7 @@ namespace AITR.respondent
                 {
                     if (item.Selected == true)
                     {
-                        
+                        SaveAnswerInDb(item.Value);
                     }
                 }
                
@@ -270,7 +274,14 @@ namespace AITR.respondent
             //dropdownlist
             else if (questionOptions == 5)
             {
-                
+                foreach (ListItem item in dropDownList.Items)
+                {
+                    if (item.Selected == true)
+                    {
+                        SaveAnswerInDb(item.Value);
+                    }
+                }
+
             }
            Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
            Session["question_nb"] = nextQuestion;
