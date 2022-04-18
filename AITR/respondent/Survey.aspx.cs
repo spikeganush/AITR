@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using AITR.Utils;
 using System.Net;
 
+
 namespace AITR.respondent
 {
     public partial class Survey : System.Web.UI.Page
@@ -19,6 +20,9 @@ namespace AITR.respondent
         private int previousQuestion = 0;
         private string havePreviousQuestion = String.Empty;
         private string haveNextQuestion = String.Empty;
+
+        private int[] multipleAnswer;
+        private string simpleAnswer;
 
         private DropDownList dropDownList = new DropDownList();
         private CheckBoxList checkBoxList = new CheckBoxList();
@@ -238,9 +242,35 @@ namespace AITR.respondent
 
         protected void button_next_Click(object sender, EventArgs e)
         {
-            Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
-            Session["question_nb"] = nextQuestion;
-            Response.Redirect("Survey.aspx");
+            
+
+            //radiobutton
+            if (questionOptions == 2)
+            {
+                foreach(ListItem item in radioBtnList.Items)
+                {
+                    if (item.Selected == true)
+                    {
+                        simpleAnswer = item.Value;
+                        page_title.Text = simpleAnswer;
+                    }
+                }
+                
+            }
+            //Checkbox
+            else if (questionOptions == 3 || questionOptions == 4 || questionOptions == 6 || questionOptions == 7 || questionOptions == 8)
+            {
+               
+
+            }
+            //dropdownlist
+            else if (questionOptions == 5)
+            {
+                
+            }
+            //Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
+            //Session["question_nb"] = nextQuestion;
+            //Response.Redirect("Survey.aspx");
         }
 
         protected void button_previous_Click(object sender, EventArgs e)
@@ -249,5 +279,9 @@ namespace AITR.respondent
             Session["question_nb"] = previousQuestion;
             Response.Redirect("Survey.aspx");
         }
+
+        
+        
+
     }
 }
