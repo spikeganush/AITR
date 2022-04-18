@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using AITR.Utils;
 using System.Net;
+using AITR.DTO;
 
 
 namespace AITR.respondent
@@ -21,9 +22,7 @@ namespace AITR.respondent
         private string havePreviousQuestion = String.Empty;
         private string haveNextQuestion = String.Empty;
 
-        private int[] multipleAnswer;
-        private string simpleAnswer;
-
+        
         private DropDownList dropDownList = new DropDownList();
         private CheckBoxList checkBoxList = new CheckBoxList();
         private RadioButtonList radioBtnList = new RadioButtonList();
@@ -242,7 +241,7 @@ namespace AITR.respondent
 
         protected void button_next_Click(object sender, EventArgs e)
         {
-            
+            ResultStatus resultStatus = new ResultStatus();
 
             //radiobutton
             if (questionOptions == 2)
@@ -251,8 +250,34 @@ namespace AITR.respondent
                 {
                     if (item.Selected == true)
                     {
-                        simpleAnswer = item.Value;
-                        page_title.Text = simpleAnswer;
+                        using (SqlConnection conn = Utils.Utils.GetConnection())
+                        {
+                            String query = "INSERT INTO research_answer (research_id, question_id, answer) VALUES (@research_id, @question_id, @answer)";
+
+                            conn.Open();
+
+                            using (SqlCommand command = new SqlCommand(query, conn))
+                            {
+                                command.Parameters.AddWithValue("@research_id", Session["research_id"]);
+                                command.Parameters.AddWithValue("@question_id", Session["question_nb"]);
+                                command.Parameters.AddWithValue("@answer", item.Value);
+
+                                int result = command.ExecuteNonQuery();
+
+                                // Error/Success message
+                                if (result < 0)
+                                {
+                                    resultStatus.ResultStatusCode = 3;
+                                    resultStatus.Message = "Error in registration";
+                                }
+                                else
+                                {
+
+                                    resultStatus.ResultStatusCode = 1;
+                                    resultStatus.Message = "Registration succeed";
+                                }
+                            }
+                        }
                     }
                 }
                 
@@ -260,6 +285,14 @@ namespace AITR.respondent
             //Checkbox
             else if (questionOptions == 3 || questionOptions == 4 || questionOptions == 6 || questionOptions == 7 || questionOptions == 8)
             {
+                
+                foreach(ListItem item in checkBoxList.Items)
+                {
+                    if (item.Selected == true)
+                    {
+                        
+                    }
+                }
                
 
             }
@@ -268,9 +301,9 @@ namespace AITR.respondent
             {
                 
             }
-            //Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
-            //Session["question_nb"] = nextQuestion;
-            //Response.Redirect("Survey.aspx");
+           // Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
+           // Session["question_nb"] = nextQuestion;
+           // Response.Redirect("Survey.aspx");
         }
 
         protected void button_previous_Click(object sender, EventArgs e)
