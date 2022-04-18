@@ -163,19 +163,31 @@ namespace AITR.respondent
 
                      if (questionOptions == 2)
                     {
-                        radioBtnList.Items.Add(new ListItem(Q_OptionRow["title"].ToString()));
+                        ListItem item = new ListItem();
+                        item.Text = Q_OptionRow["title"].ToString();
+                        item.Value = Q_OptionRow["id"].ToString();
+
+                        radioBtnList.Items.Add(item);
                         Option.Controls.Add(radioBtnList);
                     } 
                     else if (questionOptions == 3 || questionOptions == 4 || questionOptions == 6 || questionOptions == 7 || questionOptions == 8) 
-                    {                        
-                        checkBoxList.Items.Add(new ListItem(Q_OptionRow["title"].ToString()));
+                    {
+                        ListItem item = new ListItem();
+                        item.Text = Q_OptionRow["title"].ToString();
+                        item.Value = Q_OptionRow["id"].ToString();
+
+                        checkBoxList.Items.Add(item);
                         Option.Controls.Add(checkBoxList);
 
                     } 
                     else if (questionOptions == 5)
                     {
+
+                        ListItem item = new ListItem();
+                        item.Text = Q_OptionRow["title"].ToString();
+                        item.Value = Q_OptionRow["id"].ToString();
                         
-                        dropDownList.Items.Add(new ListItem(Q_OptionRow["title"].ToString()));
+                        dropDownList.Items.Add(item);
                         Option.Controls.Add(dropDownList);
                     } 
                     
