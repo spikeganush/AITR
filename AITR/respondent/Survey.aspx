@@ -13,7 +13,10 @@
     <div class="survey__buttons__area">        
         <asp:Button ID="button_previous" runat="server" Text="Previous" OnClick="button_previous_Click" />
         <asp:Button ID="button_next" runat="server" Text="Next" OnClick="button_next_Click" />
+        <asp:Button ID="button_finish" runat="server" Text="Finish" />
     </div>
+    <asp:GridView ID="dbTableView" runat="server" />
+    <asp:GridView ID="dbSubQuestion" runat="server" />
 
 
 </asp:Content>

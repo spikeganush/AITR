@@ -121,6 +121,7 @@ input[type=button], #MainContent_ButtonNext, #MainContent_ButtonRegister {
 
 .survey__buttons__area {
     margin-top:2rem;
+    margin-bottom: 2rem;
 }
 
 .options > table > tbody {

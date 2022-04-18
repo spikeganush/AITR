@@ -23,7 +23,7 @@ namespace AITR.respondent
         private DropDownList dropDownList = new DropDownList();
         private CheckBoxList checkBoxList = new CheckBoxList();
         private RadioButtonList radioBtnList = new RadioButtonList();
-        private TextBox textBox = new TextBox();
+        
         protected void Page_Load(object sender, EventArgs e)
         {            
             page_title.Text = "Question number " + Session["question_nb_display"].ToString();
@@ -36,7 +36,7 @@ namespace AITR.respondent
 
             using (SqlConnection conn = Utils.Utils.GetConnection())
             {
-                SqlCommand cmd = new SqlCommand("SELECT Question.*, Question_type.* FROM question INNER JOIN Question_type ON Question.question_type_id = Question_type.question_type_id", conn);
+                SqlCommand cmd = new SqlCommand("SELECT question.*, question_type.* FROM question INNER JOIN question_type ON question.question_type_id = question_type.question_type_id", conn);
                 conn.Open();
 
                 SqlDataReader rd = cmd.ExecuteReader();
@@ -73,7 +73,7 @@ namespace AITR.respondent
                         question_description.Text = question["description"].ToString();
                         if (Convert.ToInt32(question["question_type_id"]) > 1)
                         {
-                            if (Convert.ToInt32(question["max_answer"]) > 1)
+                            if (Convert.ToInt32(question["max_answer"]) == 1)
                             {
                                 question_option.Text = "Select " + question["max_answer"].ToString() + " option";
                             }
@@ -87,9 +87,17 @@ namespace AITR.respondent
                         }
 
                         questionOptions = Convert.ToInt32(question["question_type_id"]);
-                        
+                        if (questionOptions == 1)
+                        {
+                            TextBox textBox = new TextBox();
+                            Option.Controls.Add(textBox);
+                            textBox.Text = String.Empty;
+                        }
+
                         questionDB.Rows.Add(question);
-                        
+                        dbTableView.DataSource = questionDB;
+                        dbTableView.DataBind();
+
                         if (Convert.ToInt32(question["question_type_id"]) != 1)
                         {
                             openQuestion = true;
@@ -100,11 +108,11 @@ namespace AITR.respondent
 
                         if (havePreviousQuestion.Length == 0)
                         {
-                            button_previous.Visible = false;
+                            button_previous.Visible = false;                            
                         }
                         else
                         {
-                            button_previous.Visible = true;
+                            button_previous.Visible = true;                            
                             previousQuestion = Convert.ToInt32(question["previous question"]);
 
                         }
@@ -112,10 +120,12 @@ namespace AITR.respondent
                         if (haveNextQuestion.Length == 0)
                         {
                             button_next.Visible = false;
+                            button_finish.Visible = true;
                         }
                         else
                         {
                             button_next.Visible = true;
+                            button_finish.Visible = false;
                             nextQuestion = Convert.ToInt32(question["next question"]);
                         }
                     }
@@ -147,25 +157,28 @@ namespace AITR.respondent
                     Q_OptionRow["sub_question"] = Convert.ToBoolean(Q_OptionReader["sub_question"]);
                     Q_OptionRow["sub_question_id"] = Q_OptionReader["sub_question_id"].ToString();
                     Q_OptionDB.Rows.Add(Q_OptionRow);
+                    dbSubQuestion.DataSource = Q_OptionDB;
+                    dbSubQuestion.DataBind();
+                    Console.WriteLine(questionOptions);
 
-                    if (questionOptions == 1) {                        
-                        Option.Controls.Add(textBox);
-                        textBox.Text = String.Empty;                        
-                    }
-                    else if (questionOptions == 2)
+                     if (questionOptions == 2)
                     {
                         radioBtnList.Items.Add(new ListItem(Q_OptionRow["title"].ToString()));
                         Option.Controls.Add(radioBtnList);
-                    } else if (questionOptions == 3 || questionOptions == 4 || questionOptions == 6 || questionOptions == 7 || questionOptions == 8) {                        
+                    } 
+                    else if (questionOptions == 3 || questionOptions == 4 || questionOptions == 6 || questionOptions == 7 || questionOptions == 8) 
+                    {                        
                         checkBoxList.Items.Add(new ListItem(Q_OptionRow["title"].ToString()));
                         Option.Controls.Add(checkBoxList);
 
-                    } else if (questionOptions == 5)
+                    } 
+                    else if (questionOptions == 5)
                     {
                         
                         dropDownList.Items.Add(new ListItem(Q_OptionRow["title"].ToString()));
                         Option.Controls.Add(dropDownList);
-                    }
+                    } 
+                    
                     
 
                     
