@@ -240,9 +240,7 @@ namespace AITR.respondent
         }
 
         protected void button_next_Click(object sender, EventArgs e)
-        {
-            ResultStatus resultStatus = new ResultStatus();
-
+        {  
             //radiobutton
             if (questionOptions == 2)
             {
@@ -250,34 +248,7 @@ namespace AITR.respondent
                 {
                     if (item.Selected == true)
                     {
-                        using (SqlConnection conn = Utils.Utils.GetConnection())
-                        {
-                            String query = "INSERT INTO research_answer (research_id, question_id, answer) VALUES (@research_id, @question_id, @answer)";
-
-                            conn.Open();
-
-                            using (SqlCommand command = new SqlCommand(query, conn))
-                            {
-                                command.Parameters.AddWithValue("@research_id", Session["research_id"]);
-                                command.Parameters.AddWithValue("@question_id", Session["question_nb"]);
-                                command.Parameters.AddWithValue("@answer", item.Value);
-
-                                int result = command.ExecuteNonQuery();
-
-                                // Error/Success message
-                                if (result < 0)
-                                {
-                                    resultStatus.ResultStatusCode = 3;
-                                    resultStatus.Message = "Error in registration";
-                                }
-                                else
-                                {
-
-                                    resultStatus.ResultStatusCode = 1;
-                                    resultStatus.Message = "Registration succeed";
-                                }
-                            }
-                        }
+                        SaveAnswerInDb(item.Value);
                     }
                 }
                 
@@ -301,9 +272,9 @@ namespace AITR.respondent
             {
                 
             }
-           // Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
-           // Session["question_nb"] = nextQuestion;
-           // Response.Redirect("Survey.aspx");
+           Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
+           Session["question_nb"] = nextQuestion;
+           Response.Redirect("Survey.aspx");
         }
 
         protected void button_previous_Click(object sender, EventArgs e)
@@ -311,6 +282,40 @@ namespace AITR.respondent
             Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) - 1;
             Session["question_nb"] = previousQuestion;
             Response.Redirect("Survey.aspx");
+        }
+
+        private void SaveAnswerInDb(string answer)
+        {
+            ResultStatus resultStatus = new ResultStatus();
+
+            using (SqlConnection conn = Utils.Utils.GetConnection())
+            {
+                String query = "INSERT INTO research_answer (research_id, question_id, answer) VALUES (@research_id, @question_id, @answer)";
+
+                conn.Open();
+
+                using (SqlCommand command = new SqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("@research_id", Session["research_id"]);
+                    command.Parameters.AddWithValue("@question_id", Session["question_nb"]);
+                    command.Parameters.AddWithValue("@answer", answer);
+
+                    int result = command.ExecuteNonQuery();
+
+                    // Error/Success message
+                    if (result < 0)
+                    {
+                        resultStatus.ResultStatusCode = 3;
+                        resultStatus.Message = "Error in registration";
+                    }
+                    else
+                    {
+
+                        resultStatus.ResultStatusCode = 1;
+                        resultStatus.Message = "Registration succeed";
+                    }
+                }
+            }
         }
 
         
