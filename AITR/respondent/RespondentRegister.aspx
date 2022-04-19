@@ -23,8 +23,7 @@
         <asp:RequiredFieldValidator ID="Phone__validator" runat="server" ErrorMessage="Please fill the field." ControlToValidate="TextBoxPhoneNumber"></asp:RequiredFieldValidator>
         </div>
     </div>
-    <div class="register__buttons">
-        <a href="StartSurvey.aspx"><input id="anonymous__cancel" type="button" value="Cancel" /></a><asp:Button ID="ButtonRegister" runat="server" Text="Register" OnClick="ButtonRegister_Click" />
+    <div class="register__buttons">        
         
     </div>
     <asp:Label ID="Label1" runat="server"></asp:Label>

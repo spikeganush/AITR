@@ -22,7 +22,8 @@ namespace AITR.respondent
         private int maxAnswer = 0; //Store the max answer possible for a question
         private int success = 0; // return variable -> 0: failed | 1: success to register the answer in the db
         private string havePreviousQuestion = String.Empty; // if null no previous question, so no previous button
-        private string haveNextQuestion = String.Empty; // if null no next question, show the finish button
+        private string haveNextQuestion = String.Empty; // if null no next question, show the finish button        
+        string[] values; // Store if an answer have the answer id and the next question id inside his Value
         //Declaration for the different "Objects" use to answer the questions
         private TextBox textBox = new TextBox();
         private DropDownList dropDownList = new DropDownList();
@@ -54,8 +55,8 @@ namespace AITR.respondent
                 questionDB.Columns.Add("question_type_id", System.Type.GetType("System.String"));
                 questionDB.Columns.Add("title", System.Type.GetType("System.String"));
                 questionDB.Columns.Add("description", System.Type.GetType("System.String"));
-                questionDB.Columns.Add("previous question", System.Type.GetType("System.Int32"));
-                questionDB.Columns.Add("next question", System.Type.GetType("System.Int32"));
+                questionDB.Columns.Add("previous_question", System.Type.GetType("System.Int32"));
+                questionDB.Columns.Add("next_question", System.Type.GetType("System.Int32"));
                 questionDB.Columns.Add("multiple_answer", System.Type.GetType("System.Boolean"));
                 questionDB.Columns.Add("max_answer", System.Type.GetType("System.Int32"));
                 DataRow question;
@@ -69,15 +70,15 @@ namespace AITR.respondent
                     question["question_type_id"] = rd["question_type_id"].ToString();
                     question["title"] = rd["title"].ToString();
                     question["description"] = rd["description"].ToString();
-                    question["previous question"] =  rd["previous_question"];
-                    question["next question"] = rd["next_question"];
+                    question["previous_question"] =  rd["previous_question"];
+                    question["next_question"] = rd["next_question"];
                     question["multiple_answer"] = Convert.ToBoolean(rd["multiple_answer"]);
                     question["max_answer"] = Convert.ToInt32(rd["max_answer"]);
                     //Store only the question info when the question_id correspondent to the question number
                     if (int.Parse((string)question["id"]) == Convert.ToInt32(Session["question_nb"]))
                     {
-                        havePreviousQuestion = question["previous question"].ToString();
-                        haveNextQuestion = question["next question"].ToString();
+                        havePreviousQuestion = question["previous_question"].ToString();
+                        haveNextQuestion = question["next_question"].ToString();
                         question_title.Text = question["title"].ToString() + "?";
                         question_description.Text = question["description"].ToString();
                         maxAnswer = Convert.ToInt32(question["max_answer"]);
@@ -106,9 +107,7 @@ namespace AITR.respondent
                             textBox.Text = String.Empty;
                         }
 
-                        questionDB.Rows.Add(question);
-                        dbTableView.DataSource = questionDB;
-                        dbTableView.DataBind();
+                        questionDB.Rows.Add(question);                        
 
                         // Previous, Next, Finish button visible or not
                         if (havePreviousQuestion.Length == 0)
@@ -118,7 +117,7 @@ namespace AITR.respondent
                         else
                         {
                             Button_previous.Visible = true;                            
-                            previousQuestion = Convert.ToInt32(question["previous question"]);
+                            previousQuestion = Convert.ToInt32(question["previous_question"]);
 
                         }
 
@@ -131,7 +130,7 @@ namespace AITR.respondent
                         {
                             Button_next.Visible = true;
                             Button_finish.Visible = false;
-                            nextQuestion = Convert.ToInt32(question["next question"]);
+                            nextQuestion = Convert.ToInt32(haveNextQuestion);
                         }
                     }
 
@@ -166,11 +165,8 @@ namespace AITR.respondent
                     Q_OptionRow["id"] = Q_OptionReader["multiple_answer_id"].ToString();
                     Q_OptionRow["title"] = Q_OptionReader["title"].ToString();
                     Q_OptionRow["sub_question"] = Convert.ToBoolean(Q_OptionReader["sub_question"]);
-                    Q_OptionRow["sub_question_id"] = Q_OptionReader["sub_question_id"].ToString();
+                    Q_OptionRow["sub_question_id"] = Q_OptionReader["sub_question_id"].ToString(); 
                     Q_OptionDB.Rows.Add(Q_OptionRow);
-                    dbSubQuestion.DataSource = Q_OptionDB;
-                    dbSubQuestion.DataBind();
-                    Console.WriteLine(questionOptions);
                     //Create the html element
                     //radioButton
                      if (questionOptions == 2)
@@ -190,11 +186,17 @@ namespace AITR.respondent
                      //checkBox
                     else if (questionOptions == 3 || questionOptions == 4 || questionOptions == 6 || questionOptions == 7 || questionOptions == 8) 
                     {
-                        ListItem item = new ListItem
+                        ListItem item = new ListItem();
+                        item.Text = Q_OptionRow["title"].ToString();
+                            if (Q_OptionRow["sub_question_id"].ToString().Length == 0)
                         {
-                            Text = Q_OptionRow["title"].ToString(),
-                            Value = Q_OptionRow["id"].ToString()
-                        };
+                            item.Value = Q_OptionRow["id"].ToString();
+                        } else
+                        {
+
+                        item.Value = Q_OptionRow["id"].ToString() + " " + Q_OptionRow["sub_question_id"].ToString();
+                        }
+                        
 
                         checkBoxList.Items.Add(item);
                         Option.Controls.Add(checkBoxList);
@@ -251,28 +253,55 @@ namespace AITR.respondent
         }
 
         protected void Button_next_Click(object sender, EventArgs e)
-        {  
-            //textBox
-            if(questionOptions == 1)
+        {
+
+            FirstStepToRegisterDB();            
+
+           if (success == 1)
             {
-                if(textBox.Text.Length < 1)
+                Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
+                if (values.Length > 1 )
+                {
+                    Session["question_nb"] = values[1];
+                } 
+                else
+                {
+                    Session["question_nb"] = nextQuestion;
+                }
+                Response.Redirect("Survey.aspx");
+            }
+           
+        }
+
+        protected void Button_finish_Click(object sender, EventArgs e)
+        {
+            FirstStepToRegisterDB();
+            Response.Redirect("EndSurvey.aspx");
+        }
+
+        protected void FirstStepToRegisterDB()
+        {
+            //textBox
+            if (questionOptions == 1)
+            {
+                if (textBox.Text.Length < 1)
                 {
                     error_message.Text = "Please fill the field";
                     success = 0;
-                } else
+                }
+                else
                 {
                     SaveAnswerInDb(textBox.Text);
                     error_message.Text = "";
                     success = 1;
                 }
-                
             }
             //radioButton
-            else if (questionOptions == 2)            
+            else if (questionOptions == 2)
             {
 
                 success = PassingInfoForDb(radioBtnList.Items);
-                
+
             }
             //Checkbox
             else if (questionOptions == 3 || questionOptions == 4 || questionOptions == 6 || questionOptions == 7 || questionOptions == 8)
@@ -285,14 +314,6 @@ namespace AITR.respondent
 
                 success = PassingInfoForDb(dropDownList.Items);
             }
-
-           if (success == 1)
-            {
-                Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
-                Session["question_nb"] = nextQuestion;
-                Response.Redirect("Survey.aspx");
-            }
-           
         }
 
         protected void Button_previous_Click(object sender, EventArgs e)
@@ -318,11 +339,11 @@ namespace AITR.respondent
 
             if (count > maxAnswer)
             {
-                error_message.Text = "You can selected only " + maxAnswer.ToString() + " option(s)";
+                error_message.Text = "You can select only " + maxAnswer.ToString() + " option(s)";
                 result = 0;
             }
             else if (count == 0) {
-                error_message.Text = "You must selected 1 option";
+                error_message.Text = "You must select 1 option";
                 result = 0;
             }
             else
@@ -344,6 +365,12 @@ namespace AITR.respondent
         private void SaveAnswerInDb(string answer)
         {
             ResultStatus resultStatus = new ResultStatus();
+
+            values = answer.Split(' ');
+            if (values.Length > 1 )
+            {
+                answer = values[0];
+            } 
 
             using (SqlConnection conn = Utils.Utils.GetConnection())
             {
@@ -374,6 +401,6 @@ namespace AITR.respondent
                 }
             }
         }
-
+        
     }
 }

@@ -68,9 +68,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="asset\lock.png" />
+    <Content Include="asset\user.png" />
     <Content Include="home.aspx" />
+    <Content Include="respondent\EndSurvey.aspx" />
     <Content Include="respondent\RespondentRegister.aspx" />
     <Content Include="respondent\Survey.aspx" />
+    <Content Include="staff\Login.aspx" />
+    <Content Include="staff\Research.aspx" />
     <Content Include="style.css" />
     <Content Include="respondent\StartSurvey.aspx" />
     <Content Include="Web.config" />
@@ -86,6 +91,13 @@
       <DependentUpon>home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="respondent\EndSurvey.aspx.cs">
+      <DependentUpon>EndSurvey.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="respondent\EndSurvey.aspx.designer.cs">
+      <DependentUpon>EndSurvey.aspx</DependentUpon>
+    </Compile>
     <Compile Include="respondent\RespondentRegister.aspx.cs">
       <DependentUpon>RespondentRegister.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -113,6 +125,20 @@
     </Compile>
     <Compile Include="respondent\StartSurvey.aspx.designer.cs">
       <DependentUpon>StartSurvey.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="staff\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="staff\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="staff\Research.aspx.cs">
+      <DependentUpon>Research.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="staff\Research.aspx.designer.cs">
+      <DependentUpon>Research.aspx</DependentUpon>
     </Compile>
     <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
