@@ -11,10 +11,11 @@
         <asp:PlaceHolder ID="Option" runat="server"></asp:PlaceHolder>
     </div>
     <div class="survey__buttons__area">        
-        <asp:Button ID="button_previous" runat="server" Text="Previous" OnClick="button_previous_Click" />
-        <asp:Button ID="button_next" runat="server" Text="Next" OnClick="button_next_Click" />
-        <asp:Button ID="button_finish" runat="server" Text="Finish" />
+        <asp:Button ID="Button_previous" runat="server" Text="Previous" OnClick="Button_previous_Click" />
+        <asp:Button ID="Button_next" runat="server" Text="Next" OnClick="Button_next_Click" />
+        <asp:Button ID="Button_finish" runat="server" Text="Finish" />
     </div>
+    <asp:Label class="error__message" ID="error_message" runat="server"></asp:Label>
     <asp:GridView ID="dbTableView" runat="server" />
     <asp:GridView ID="dbSubQuestion" runat="server" />
 

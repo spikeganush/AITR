@@ -116,6 +116,8 @@ namespace AITR
 
             Label1.Text = resultStatus.Message;
 
+            Response.Redirect("Survey.aspx");
+
         }
     }
 }

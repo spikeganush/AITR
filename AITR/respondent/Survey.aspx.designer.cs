@@ -60,31 +60,40 @@ namespace AITR.respondent
         protected global::System.Web.UI.WebControls.PlaceHolder Option;
 
         /// <summary>
-        /// button_previous control.
+        /// Button_previous control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button button_previous;
+        protected global::System.Web.UI.WebControls.Button Button_previous;
 
         /// <summary>
-        /// button_next control.
+        /// Button_next control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button button_next;
+        protected global::System.Web.UI.WebControls.Button Button_next;
 
         /// <summary>
-        /// button_finish control.
+        /// Button_finish control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button button_finish;
+        protected global::System.Web.UI.WebControls.Button Button_finish;
+
+        /// <summary>
+        /// error_message control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label error_message;
 
         /// <summary>
         /// dbTableView control.

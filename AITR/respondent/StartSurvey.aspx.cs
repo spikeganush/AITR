@@ -10,7 +10,7 @@ using AITR.Utils;
 
 namespace AITR
 {
-    public partial class survey : System.Web.UI.Page
+    public partial class Survey : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

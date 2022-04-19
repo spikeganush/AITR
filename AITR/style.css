@@ -127,3 +127,8 @@ input[type=button], #MainContent_ButtonNext, #MainContent_ButtonRegister {
 .options > table > tbody {
     display: flex;
 }
+
+.error__message {
+    color: red;
+    font-size: 2rem;
+}

@@ -11,7 +11,7 @@ namespace AITR
 {
 
 
-    public partial class survey
+    public partial class Survey
     {
 
         /// <summary>
