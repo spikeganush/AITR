@@ -21,6 +21,8 @@ namespace AITR.respondent
         private int previousQuestion = 0; //Store the previous question id
         private int maxAnswer = 0; //Store the max answer possible for a question
         private int success = 0; // return variable -> 0: failed | 1: success to register the answer in the db
+        private int firstPageId = 0; //here to test if 2 question_nb are the same if not ↓
+        private int secondPageId = 0; //store the question_nb if are different
         private string havePreviousQuestion = String.Empty; // if null no previous question, so no previous button
         private string haveNextQuestion = String.Empty; // if null no next question, show the finish button        
         string[] values; // Store if an answer have the answer id and the next question id inside his Value
@@ -34,6 +36,8 @@ namespace AITR.respondent
         {   
             //Title with the question number
             page_title.Text = "Question number " + Session["question_nb_display"].ToString();
+            //error message
+            error_message.Text = Session["error_message"].ToString();
             //We are testing if a survey session is running or not
             if (Session["research_id"] == null)
             {
@@ -109,18 +113,7 @@ namespace AITR.respondent
 
                         questionDB.Rows.Add(question);                        
 
-                        // Previous, Next, Finish button visible or not
-                        if (havePreviousQuestion.Length == 0)
-                        {
-                            Button_previous.Visible = false;                            
-                        }
-                        else
-                        {
-                            Button_previous.Visible = true;                            
-                            previousQuestion = Convert.ToInt32(question["previous_question"]);
-
-                        }
-
+                        // Next, Finish button visible or not
                         if (haveNextQuestion.Length == 0)
                         {
                             Button_next.Visible = false;
@@ -133,9 +126,6 @@ namespace AITR.respondent
                             nextQuestion = Convert.ToInt32(haveNextQuestion);
                         }
                     }
-
-                    
-
                 }
                 conn.Close();
                 
@@ -252,6 +242,12 @@ namespace AITR.respondent
             }
         }
 
+        //                  //
+        //                  //
+        // BUTTONS ACTIONS  //
+        //                  //
+        //                  //
+
         protected void Button_next_Click(object sender, EventArgs e)
         {
 
@@ -259,15 +255,34 @@ namespace AITR.respondent
 
            if (success == 1)
             {
-                Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
-                if (values.Length > 1 )
+                if (values.Length > 1)
                 {
-                    Session["question_nb"] = values[1];
-                } 
+                    if (secondPageId != 0)
+                    {
+                        Session["question_nb2"] = secondPageId;
+                    }
+                    else
+                    {
+                        Session["question_nb"] = values[1];
+                    }
+
+                    Response.Redirect("Survey.aspx");
+                }
                 else
                 {
+                    if (Convert.ToInt32(Session["question_nb2"]) != 0)
+                    {
+                        Session["question_nb"] = Session["question_nb2"];
+                        Session["question_nb2"] = null;
+                        Response.Redirect("Survey.aspx");
+
+                    }
                     Session["question_nb"] = nextQuestion;
-                }
+                    Response.Redirect("Survey.aspx");
+                }                
+            } 
+            else
+            {
                 Response.Redirect("Survey.aspx");
             }
            
@@ -276,8 +291,44 @@ namespace AITR.respondent
         protected void Button_finish_Click(object sender, EventArgs e)
         {
             FirstStepToRegisterDB();
-            Response.Redirect("EndSurvey.aspx");
+            if (success == 1)
+            {
+                if (values.Length > 1)
+                {
+                    if (secondPageId != 0)
+                    {
+                        Session["question_nb2"] = secondPageId;
+                    }
+                    else
+                    {
+                        Session["question_nb"] = values[1];
+                    }
+
+                    Response.Redirect("Survey.aspx");
+                }
+                else
+                {
+                    if (Convert.ToInt32(Session["question_nb2"]) != 0)
+                    {
+                        Session["question_nb"] = Session["question_nb2"];
+                        Session["question_nb2"] = null;
+                        Response.Redirect("Survey.aspx");
+
+                    }
+                    Session["question_nb"] = nextQuestion;
+                    Response.Redirect("EndSurvey.aspx");
+                }
+            } else
+            {
+                Response.Redirect("Survey.aspx");
+            }
         }
+
+        //                        //
+        //                        //
+        //   END BUTTONS ACTIONS  //
+        //                        //
+        //                        //
 
         protected void FirstStepToRegisterDB()
         {
@@ -286,13 +337,13 @@ namespace AITR.respondent
             {
                 if (textBox.Text.Length < 1)
                 {
-                    error_message.Text = "Please fill the field";
+                    Session["error_message"] = "Please fill the field";
                     success = 0;
                 }
                 else
                 {
                     SaveAnswerInDb(textBox.Text);
-                    error_message.Text = "";
+                    Session["error_message"] = "";
                     success = 1;
                 }
             }
@@ -314,14 +365,7 @@ namespace AITR.respondent
 
                 success = PassingInfoForDb(dropDownList.Items);
             }
-        }
-
-        protected void Button_previous_Click(object sender, EventArgs e)
-        {
-            Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) - 1;
-            Session["question_nb"] = previousQuestion;
-            Response.Redirect("Survey.aspx");
-        }
+        }        
 
         private int PassingInfoForDb(ListItemCollection info)
         {
@@ -339,11 +383,11 @@ namespace AITR.respondent
 
             if (count > maxAnswer)
             {
-                error_message.Text = "You can select only " + maxAnswer.ToString() + " option(s)";
+                Session["error_message"] = "You can select only " + maxAnswer.ToString() + " option(s)";
                 result = 0;
             }
             else if (count == 0) {
-                error_message.Text = "You must select 1 option";
+                Session["error_message"] = "You must select 1 option";
                 result = 0;
             }
             else
@@ -370,6 +414,15 @@ namespace AITR.respondent
             if (values.Length > 1 )
             {
                 answer = values[0];
+                // if the answers give the possibily to select 2 subquestions
+                // the question_nb for the second subquestion need to be store
+                if(firstPageId == 0)
+                {
+                    firstPageId = Convert.ToInt32(values[1]);
+                    Session["question_nb"] = Convert.ToInt32(values[1]);
+                } else if (firstPageId != Convert.ToInt32(values[1])) {
+                    secondPageId = Convert.ToInt32(values[1]);
+                }
             } 
 
             using (SqlConnection conn = Utils.Utils.GetConnection())

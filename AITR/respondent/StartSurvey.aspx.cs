@@ -17,8 +17,9 @@ namespace AITR
             //Session variables used during the survey
             Session["research_id"] = null; //research_session id
             Session["question_nb"] = 100; //question number - question_id
+            Session["question_nb2"] = null; //If for newspaper sports and travel are selected we need to store the second question id
             Session["question_nb_display"] = 1; // number to display in the title          
-
+            Session["error_message"] = String.Empty; //Error message
         }
 
         protected void ButtonNext_Click(object sender, EventArgs e)
