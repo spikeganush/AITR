@@ -18,7 +18,6 @@ namespace AITR.respondent
         //Declaration of usefull variable
         private int questionOptions = 0; //Store the type of quesion [1: textBox| 2: radioButton| 3,4,6,7,8: checkBoxe| 5: dropdownList]  
         private int nextQuestion = 0; //Store the next question id
-        private int previousQuestion = 0; //Store the previous question id
         private int maxAnswer = 0; //Store the max answer possible for a question
         private int success = 0; // return variable -> 0: failed | 1: success to register the answer in the db
         private int firstPageId = 0; //here to test if 2 question_nb are the same if not ↓
@@ -255,6 +254,9 @@ namespace AITR.respondent
 
            if (success == 1)
             {
+                //Increment the value for question number display in the page title
+                Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
+                //Test to know if an answer with a subquestion has been selected and been redirected to the correct next question
                 if (values.Length > 1)
                 {
                     if (secondPageId != 0)

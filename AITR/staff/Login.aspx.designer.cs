@@ -15,13 +15,22 @@ namespace AITR.staff
     {
 
         /// <summary>
-        /// TextBoxLoginEmail control.
+        /// labelTest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxLoginEmail;
+        protected global::System.Web.UI.WebControls.Label labelTest;
+
+        /// <summary>
+        /// TextBoxLoginUsername control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxLoginUsername;
 
         /// <summary>
         /// TextBoxLoginPassword control.
@@ -40,6 +49,15 @@ namespace AITR.staff
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonLogin;
+
+        /// <summary>
+        /// labelErrorMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelErrorMessage;
 
         /// <summary>
         /// LoginEmail_validator control.

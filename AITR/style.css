@@ -163,16 +163,21 @@ input[type=button], input[type=submit], #MainContent_ButtonNext, #MainContent_Bu
 }
 
 .input__input {
+    display: flex;
+    align-items: flex-end;
     border-bottom: 3px solid lightgrey;
 }
 
 .input__input__input {
     border: 0;
-    border-bottom: 1;
-    width: 100%;
+    width: 250px;
+    padding-block: 1rem;
+    padding-inline: 0.5rem;
+    font-size: 1.5rem;
 }
 
 .input__img {
+    width: 55px;
     margin-left: 2rem;
     transform: translateY(15px);
 }
