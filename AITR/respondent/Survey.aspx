@@ -9,7 +9,7 @@
     <asp:Label class="question__description" ID="question_description" runat="server"></asp:Label>
     <asp:Label class="question__option" ID="question_option" runat="server"></asp:Label>
     <div class="options">
-        <asp:PlaceHolder ID="Option" runat="server"></asp:PlaceHolder>
+        <asp:PlaceHolder ID="Option" runat="server" />
     </div>
     <div class="survey__buttons__area">        
         <asp:Button ID="Button_next" runat="server" Text="Next" OnClick="Button_next_Click" />

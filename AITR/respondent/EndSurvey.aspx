@@ -10,7 +10,7 @@
         <div class="introduction">
             <p>Thanks for your time and your answers.</p>
             <p>Have a good one!</p>
-
+            <asp:Label ID="LabelSuccess" runat="server" />
         </div>
 
         <div class="start_button_area"><a href="../home.aspx">

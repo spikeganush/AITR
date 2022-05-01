@@ -35,7 +35,7 @@
         </div>
         <asp:Button ID="ButtonLogin" runat="server" Text="LOGIN" OnClick="ButtonLogin_Click" />
         <asp:Label CssClass="error__message" ID="labelErrorMessage" runat="server" />
-        <!--<asp:RequiredFieldValidator ID="LoginEmail_validator" runat="server" ErrorMessage="Please fill the field." ControlToValidate="TextBoxLoginUsername" />
-        <asp:RequiredFieldValidator ID="LoginPassword_validator" runat="server" ErrorMessage="Please fill the field." ControlToValidate="TextBoxLoginPassword" />-->
+        <asp:RequiredFieldValidator ID="LoginUsername_validator" runat="server" ErrorMessage="Please fill the field." ControlToValidate="TextBoxLoginUsername" />
+        <asp:RequiredFieldValidator ID="LoginPassword_validator" runat="server" ErrorMessage="Please fill the field." ControlToValidate="TextBoxLoginPassword" />
     </div>
 </asp:Content>

@@ -11,8 +11,6 @@ img {
     width: 100%;
 }
 
-
-
 .header {
     display: flex;
     justify-content: center;
@@ -30,12 +28,21 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 8rem;
+    margin-inline: 2rem;
     background-color: #fff;
     border-radius: 15px;
     padding-block: 3rem;
     padding-inline: 2rem;
     box-shadow: 1px 3px 14px 3px black;
+}
+
+.survey__card:first-child {
+    margin-top: 8rem;
+}
+
+.survey__card:last-child {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
 }
 
 .title {
@@ -49,7 +56,10 @@ img {
     font-size: 3rem;
 }
 
-input[type=button], input[type=submit], #MainContent_ButtonNext, #MainContent_ButtonRegister {
+input[type=button], 
+input[type=submit], 
+#MainContent_ButtonNext, 
+#MainContent_ButtonRegister {
     padding-inline: 1rem;
     padding-block: 0.5rem;
     border-radius: 6px;
@@ -113,14 +123,32 @@ input[type=button], input[type=submit], #MainContent_ButtonNext, #MainContent_Bu
     margin-bottom: 1rem;
 }
 
-.options {
+.options, 
+.age__range__area,
+.state__gender__area,
+.suburb__postcode__area,
+.bank__area {
     display: flex;
     flex-wrap: wrap;
 }
 
-    .options > table > tbody > tr {
-        margin-inline: 2rem;
-    }
+.state__gender__area,
+.suburb__postcode__area,
+.bank__area {
+    gap: 1rem;
+}
+
+.age__range__area {
+    flex-direction: column;
+}
+
+.options > table > tbody > tr {
+    margin-inline: 0.5rem;
+}
+
+.result__area > table > tbody > tr > td {
+    padding: 0.5rem;
+}
 
 .question__title {
     font-size: 2rem;
@@ -141,8 +169,19 @@ input[type=button], input[type=submit], #MainContent_ButtonNext, #MainContent_Bu
     margin-bottom: 2rem;
 }
 
-.options > table > tbody {
+.options > table > tbody,
+.age__range__area > table > tbody,
+.bank__area > table > tbody {
     display: flex;
+}
+
+.bank__area > table > tbody {
+    flex-wrap: wrap;
+}
+
+.age__range__area > table > tbody {
+    flex-wrap: wrap;
+    width: 60%
 }
 
 .error__message {
@@ -180,4 +219,43 @@ input[type=button], input[type=submit], #MainContent_ButtonNext, #MainContent_Bu
     width: 55px;
     margin-left: 2rem;
     transform: translateY(15px);
+}
+
+.name__search__area {
+    display: flex;
+    gap: 1rem;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.column h3 {
+    margin-bottom: 0.1rem;
+}
+
+.name__search__input {
+    border: 0;
+    border-radius: 6px;
+    background-color: #c7c7c738;
+    color: black;
+    padding-block: 0.8rem;
+    padding-inline: 0.3rem;
+    font-size: 1rem;
+}
+
+.last__search__area {
+    margin-bottom: 2rem;
+}
+
+.main_container_search {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.main_container_search > .survey__card {
+    margin-top: 1rem;
 }

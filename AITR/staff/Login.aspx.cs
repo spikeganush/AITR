@@ -18,36 +18,46 @@ namespace AITR.staff
         List<String> staffMembersPassword = new List<string>();
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session["refresh_search_page"] = 0;
 
-            //Question
-            //Db connection + store the result in a Datatable
-            using (SqlConnection conn = Utils.Utils.GetConnection())
+            if (Convert.ToBoolean(Session["login"]))
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM staff", conn);
-                conn.Open();
-
-                SqlDataReader rd = cmd.ExecuteReader();
-
-                // Database table for Question
-                DataTable staffMemberDB = new DataTable();
-                staffMemberDB.Columns.Add("id", System.Type.GetType("System.String"));
-                staffMemberDB.Columns.Add("username", System.Type.GetType("System.String"));
-                staffMemberDB.Columns.Add("password", System.Type.GetType("System.String"));
-                DataRow staffMember;
-
-
-                while (rd.Read())
+                Response.Redirect("Research.aspx");
+            } 
+            else
+            {
+                //Question
+                //Db connection + store the result in a Datatable
+                using (SqlConnection conn = Utils.Utils.GetConnection())
                 {
-                    staffMember = staffMemberDB.NewRow();
-                    //Different columns with their name and type
-                    staffMember["id"] = rd["staff_id"].ToString();
-                    staffMember["username"] = rd["username"].ToString();
-                    staffMember["password"] = rd["password"].ToString();
-                    staffMembersUsername.Add(staffMember["username"].ToString());
-                    staffMembersPassword.Add(staffMember["password"].ToString());
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM staff", conn);
+                    conn.Open();
+
+                    SqlDataReader rd = cmd.ExecuteReader();
+
+                    // Database table for Question
+                    DataTable staffMemberDB = new DataTable();
+                    staffMemberDB.Columns.Add("id", System.Type.GetType("System.String"));
+                    staffMemberDB.Columns.Add("username", System.Type.GetType("System.String"));
+                    staffMemberDB.Columns.Add("password", System.Type.GetType("System.String"));
+                    DataRow staffMember;
+
+
+                    while (rd.Read())
+                    {
+                        staffMember = staffMemberDB.NewRow();
+                        //Different columns with their name and type
+                        staffMember["id"] = rd["staff_id"].ToString();
+                        staffMember["username"] = rd["username"].ToString();
+                        staffMember["password"] = rd["password"].ToString();
+                        staffMembersUsername.Add(staffMember["username"].ToString());
+                        staffMembersPassword.Add(staffMember["password"].ToString());
+                    }
+                    conn.Close();
                 }
-                conn.Close();                
             }
+
+            
         }
 
         protected void ButtonLogin_Click(object sender, EventArgs e)
@@ -61,6 +71,7 @@ namespace AITR.staff
                     if (staffMembersPassword[count] == TextBoxLoginPassword.Text)
                     {
                         labelErrorMessage.Text = "";
+                        Session["login"] = true;
                         Response.Redirect("Research.aspx");
                     } else
                     {

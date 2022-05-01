@@ -26,6 +26,7 @@ namespace AITR.respondent
         private string haveNextQuestion = String.Empty; // if null no next question, show the finish button        
         string[] values; // Store if an answer have the answer id and the next question id inside his Value
         //Declaration for the different "Objects" use to answer the questions
+
         private TextBox textBox = new TextBox();
         private DropDownList dropDownList = new DropDownList();
         private CheckBoxList checkBoxList = new CheckBoxList();
@@ -173,7 +174,7 @@ namespace AITR.respondent
                         Option.Controls.Add(radioBtnList);
                     } 
                      //checkBox
-                    else if (questionOptions == 3 || questionOptions == 4 || questionOptions == 6 || questionOptions == 7 || questionOptions == 8) 
+                    else if (questionOptions == 3 || questionOptions == 4 || questionOptions == 6 || questionOptions == 7 || questionOptions == 8 || questionOptions == 9) 
                     {
                         ListItem item = new ListItem();
                         item.Text = Q_OptionRow["title"].ToString();
@@ -253,40 +254,50 @@ namespace AITR.respondent
             FirstStepToRegisterDB();            
 
            if (success == 1)
-            {
+           {
+                Session["error_message"] = "";
                 //Increment the value for question number display in the page title
                 Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
                 //Test to know if an answer with a subquestion has been selected and been redirected to the correct next question
-                if (values.Length > 1)
+                if(questionOptions != 1)
                 {
-                    if (secondPageId != 0)
+                    if (values.Length > 1)
                     {
-                        Session["question_nb2"] = secondPageId;
+                        if (secondPageId != 0)
+                        {
+                            Session["question_nb2"] = secondPageId;
+                        }
+                        else
+                        {
+                            Session["question_nb"] = values[1];
+                        }
+
+                        Response.Redirect("Survey.aspx");
                     }
                     else
                     {
-                        Session["question_nb"] = values[1];
-                    }
+                        if (Convert.ToInt32(Session["question_nb2"]) != 0)
+                        {
+                            Session["question_nb"] = Session["question_nb2"];
+                            Session["question_nb2"] = null;
+                            Response.Redirect("Survey.aspx");
 
-                    Response.Redirect("Survey.aspx");
+                        }
+                        Session["question_nb"] = nextQuestion;
+                        Response.Redirect("Survey.aspx");
+                    } 
                 }
                 else
                 {
-                    if (Convert.ToInt32(Session["question_nb2"]) != 0)
-                    {
-                        Session["question_nb"] = Session["question_nb2"];
-                        Session["question_nb2"] = null;
-                        Response.Redirect("Survey.aspx");
-
-                    }
                     Session["question_nb"] = nextQuestion;
                     Response.Redirect("Survey.aspx");
-                }                
+                }
+
             } 
-            else
-            {
-                Response.Redirect("Survey.aspx");
-            }
+           else
+           {
+               Response.Redirect("Survey.aspx");
+           }
            
         }
 
@@ -295,6 +306,9 @@ namespace AITR.respondent
             FirstStepToRegisterDB();
             if (success == 1)
             {
+                Session["error_message"] = "";
+                //Increment the value for question number display in the page title
+                Session["question_nb_display"] = Convert.ToInt32(Session["question_nb_display"]) + 1;
                 if (values.Length > 1)
                 {
                     if (secondPageId != 0)
@@ -357,7 +371,7 @@ namespace AITR.respondent
 
             }
             //Checkbox
-            else if (questionOptions == 3 || questionOptions == 4 || questionOptions == 6 || questionOptions == 7 || questionOptions == 8)
+            else if (questionOptions == 3 || questionOptions == 4 || questionOptions == 6 || questionOptions == 7 || questionOptions == 8 || questionOptions == 9)
             {
                 success = PassingInfoForDb(checkBoxList.Items);
             }
@@ -412,20 +426,26 @@ namespace AITR.respondent
         {
             ResultStatus resultStatus = new ResultStatus();
 
-            values = answer.Split(' ');
-            if (values.Length > 1 )
+            if(questionOptions != 1)
             {
-                answer = values[0];
-                // if the answers give the possibily to select 2 subquestions
-                // the question_nb for the second subquestion need to be store
-                if(firstPageId == 0)
+                values = answer.Split(' ');
+                if (values.Length > 1)
                 {
-                    firstPageId = Convert.ToInt32(values[1]);
-                    Session["question_nb"] = Convert.ToInt32(values[1]);
-                } else if (firstPageId != Convert.ToInt32(values[1])) {
-                    secondPageId = Convert.ToInt32(values[1]);
+                    answer = values[0];
+                    // if the answers give the possibily to select 2 subquestions
+                    // the question_nb for the second subquestion need to be store
+                    if (firstPageId == 0)
+                    {
+                        firstPageId = Convert.ToInt32(values[1]);
+                        Session["question_nb"] = Convert.ToInt32(values[1]);
+                    }
+                    else if (firstPageId != Convert.ToInt32(values[1]))
+                    {
+                        secondPageId = Convert.ToInt32(values[1]);
+                    }
                 }
-            } 
+            }
+             
 
             using (SqlConnection conn = Utils.Utils.GetConnection())
             {

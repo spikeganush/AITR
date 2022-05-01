@@ -60,13 +60,13 @@ namespace AITR.staff
         protected global::System.Web.UI.WebControls.Label labelErrorMessage;
 
         /// <summary>
-        /// LoginEmail_validator control.
+        /// LoginUsername_validator control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator LoginEmail_validator;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator LoginUsername_validator;
 
         /// <summary>
         /// LoginPassword_validator control.
